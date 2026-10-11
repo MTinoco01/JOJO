@@ -6,7 +6,7 @@ export enum Status {
     DISPONÍVEL = "disponível", ALUGADA = "alugada"
 };
 @Entity()
-export default class VagasEstacionamento extends BaseEntity {
+export default class VagaEstacionamento extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
     @Column({ type: "enum", enum: Tipo_Veículo })
@@ -21,6 +21,6 @@ export default class VagasEstacionamento extends BaseEntity {
     status: Status;
     @ManyToOne(() => ProprietárioEstacionamento, (proprietário_estacionamento) => proprietário_estacionamento.vagas_estacionamento, { onDelete: "CASCADE" })
     proprietário_estacionamento: ProprietárioEstacionamento;
-    @OneToMany(() => AluguelVaga, (aluguel_vaga) => aluguel_vaga.vagas_estacionamento)
+    @OneToMany(() => AluguelVaga, (aluguel_vaga) => aluguel_vaga.vaga_estacionamento)
     aluguéis_vaga: AluguelVaga[];
 }

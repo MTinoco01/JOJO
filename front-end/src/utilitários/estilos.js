@@ -10,7 +10,7 @@ export const opçõesCores = [
     { label: "Verde", value: "green" },
     { label: "Verde Azulado", value: "teal" }
 ];
-export const TAMANHOS = { ANO: 4, CPF: 13,TELEFONE: 12, SENHA: 15};
+export const TAMANHOS = { ANO: 4, CPF: 13, MAX_LINHAS_TABELA: 10, TELEFONE: 12, SENHA: 15};
 export const TEMA_PADRÃO = "bluegray";
 export function estilizarBotão() {
     const cor_botão = "green";
@@ -21,6 +21,11 @@ export function estilizarBotãoRemover() {
     const cor_borda = "bluegray";
     return `p-button-sm h-2rem text-base w-auto md:w-min mr-2 p-button-danger
 border-${cor_borda}-800 shadow-6`;
+};
+export function estilizarBotãoTabela(cor_tema, consultado = false) {
+    let cor_botão = `text-${cor_tema}-900`;
+    if (consultado) cor_botão = "p-button-danger";
+    return `w-1rem p-button-sm p-button-text w-1 h-1rem ${cor_botão} shadow-6`;
 };
 export function estilizarBotãoRetornar() {
     const cor_botão = "yellow";
@@ -33,8 +38,23 @@ export function estilizarCard(cor_tema) {
 export function estilizarCardHeaderCentralizado() {
     return "flex justify-content-center font-bold text-2xl mb-2";
 };
+export function estilizarCheckbox(erro) {
+    return `w-auto mr-2 ${erro && "p-invalid"}`;
+};
 export function estilizarColuna() {
     return "col";
+};
+export function estilizarColunaConsultar() {
+    return "w-1rem";
+};
+export function estilizarColumnHeader(cor_tema) {
+    return `bg-${cor_tema}-100 text-${cor_tema}-700`;
+};
+export function estilizarDataTable() {
+    return "border-1 shadow-6";
+};
+export function estilizarDataTablePaginator(cor_tema) {
+    return `bg-${cor_tema}-100 text-${cor_tema}-700`;
 };
 export function estilizarDialog() {
     return "w-auto p-2";
@@ -58,6 +78,9 @@ export function estilizarDropdown(erro, cor_tema) {
 };
 export function estilizarErro() {
     return "w-auto p-error flex-wrap text-base md:text-sm font-bold ml-2";
+};
+export function estilizarFilterMenu() {
+    return "flex flex-column align-items-center";
 };
 export function estilizarFlex(alinhamento = "start") {
     return `flex flex-column align-items-${alinhamento}`;
@@ -88,6 +111,11 @@ export function estilizarInputText(erro, input_classname, cor_tema = TEMA_PADRÃ
     let cor_borda = `border-${cor_tema}-800`;
     if (erro) cor_borda = "p-invalid";
     return `input${input_classname} py-0 ${cor_borda}`;
+};
+export function estilizarInputTextarea(erro, cor_tema) {
+    let cor_borda = `border-${cor_tema}-800`;
+    if (erro) cor_borda = "p-invalid";
+    return `w-full lg:w-auto py-0 ${cor_borda}`;
 };
 export function estilizarLabel(cor_tema = TEMA_PADRÃO) {
     return `w-auto text-md mr-4 md:text-base text-${cor_tema}-700 font-bold`;
@@ -131,3 +159,6 @@ export function estilizarSubtítulo(cor_tema) {
 export function estilizarTítulo(cor_tema) {
     return `text-base align-self-start text-${cor_tema}-800 mr-3`;
 }
+export function estilizarTriStateCheckbox(cor_tema) {
+    return `ml-2 text-${cor_tema}-800`;
+};

@@ -25,6 +25,10 @@ export default function MenuLateral({ children }) {
                     disabled: usuárioLogado.status !== "ativo"
                 },
                 { label: "Cadastrar ProprietárioEstacionamento", command: () => navegar("/cadastrar-proprietário-estacionamento") },
+                {
+                    label: "Administrar Vagas", command: () => navegar("/administrar-vagas-estacionamento"),
+                    disabled: usuárioLogado.status !== "ativo"
+                },
                 { label: "Sair do Sistema", command: () => sairSistema() }
             ]
         },
@@ -35,6 +39,8 @@ export default function MenuLateral({ children }) {
         { label: "Cadastrar Usuário", command: () => navegar("/atualizar-usuario"),
         disabled: usuárioLogado.status !== "ativo"},
         { label: "Cadastrar Proprietário de Carro", command: () => navegar("/cadastrar-proprietário-carro")},
+        { label: "Administrar Aluguéis", command: () => navegar("/administrar-alugueis-vaga"),
+        disabled: usuárioLogado.status !== "ativo"},
         { label: "Sair do Sistema", command: () => sairSistema()},
         ]},
     ];
