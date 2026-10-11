@@ -2,15 +2,14 @@ import { createContext, useState } from "react";
 const ContextoProprietárioCarro = createContext();
 export default ContextoProprietárioCarro;
 export function ProvedorProprietárioCarro({ children }) {
-const [aluguelVagaConsultado, setAluguelVagaConsultado] = useState({});
-const [vagaEstacionamentoConsultada, setVagaEstacionamentoConsultada] = useState({});
-const [vagaEstacionamentoSelecionada, setVagaEstacionamentoSelecionada] = useState({});
-const [vagaEstacionamentoAluguelVaga, setVagaEstacionamentoAluguelVaga] = useState({});
+const [interesseConsultado, setInteresseConsultado] = useState({});
+const [propostaConsultada, setPropostaConsultada] = useState({});
+const [propostaSelecionada, setPropostaSelecionada] = useState({});
+const [propostaInteresse, setPropostaInteresse] = useState({});
 return (
 <ContextoProprietárioCarro.Provider value={{
- aluguelVagaConsultado, setAluguelVagaConsultado, vagaEstacionamentoConsultada, setVagaEstacionamentoConsultada,
- vagaEstacionamentoSelecionada, setVagaEstacionamentoSelecionada,
- vagaEstacionamentoAluguelVaga, setVagaEstacionamentoAluguelVaga
+ interesseConsultado, setInteresseConsultado, propostaConsultada, setPropostaConsultada, 
+ propostaSelecionada, setPropostaSelecionada, propostaInteresse, setPropostaInteresse
  }}>{children}</ContextoProprietárioCarro.Provider>
  );
 }

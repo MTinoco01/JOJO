@@ -26,7 +26,7 @@ export default function CadastrarProprietárioCarro() {
     const [erros, setErros] = useState({});
     const [cpfExistente, setCpfExistente] = useState(false);
     const navegar = useNavigate();
-    const opçõesMarca = [{ label: "Fiat", value: "Fiat"},{label: "Peugeot",value: "Peugeot" },
+    const opçõesMarca = [{ label: "Fiat", value: "Fiat"},{label: "Pegout",value: "Pegout" },
     {label: "Chevrolet", value: "Chevrolet" }];
     function alterarEstado(event) {
         const chave = event.target.name || event.value;
