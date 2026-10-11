@@ -3,10 +3,10 @@ import { getManager } from "typeorm";
 import Usuário, { Status } from "../entidades/usuário";
 import ProprietárioEstacionamento from "../entidades/proprietário-estacionamento";
 import ServiçosUsuário from "./serviços-usuário";
-import Proposta from "../entidades/proposta";
+import VagaEstacionamento from "../entidades/vaga-estacionamento";
 export default class ServiçosProprietárioEstacionamento {
     constructor() { }
-    static async cadastrarProprietário_Estacionamento(request, response) {
+    static async cadastrarProprietárioEstacionamento(request, response) {
         try {
             const { usuário_info, tipo_estacionamento, capacidade_total } = request.body;
             const { usuário, token } = await ServiçosUsuário.cadastrarUsuário(usuário_info);
@@ -37,59 +37,58 @@ export default class ServiçosProprietárioEstacionamento {
             });
         } catch (error) { return response.status(500).json({ erro: "Erro BD : buscarProprietárioEstacionamento" }); }
     };
-    static async cadastrarProposta (request, response) {
-    try {
-      const {título, categoria, área_atuação, data_início, descrição, concorrendo_bolsa, resultado, 
-        cpf} = request.body;
-      const cpf_encriptado = md5(cpf);
-      const proprietárioestacionamento = await ProprietárioEstacionamento.findOne({ where: { usuário: cpf_encriptado },
-        relations: ["usuário" ] });
-      await Proposta.create({título, categoria, área_atuação, data_início, descrição, 
-        concorrendo_bolsa, resultado, proprietárioestacionamento}).save();
-      return response.json();
-    } catch (error) { return response.status(500).json({ erro: "Erro BD : cadastrarProposta" }); }
-    };
-    static async alterarProposta(request, response) {
+    static async cadastrarVagaEstacionamento(request, response) {
         try {
-        const {id, título, categoria, área_atuação, data_início, descrição, concorrendo_bolsa, 
-            resultado} = request.body;
-        await Proposta.update(id, {título, categoria, área_atuação, data_início, descrição, 
-            concorrendo_bolsa, resultado});
-        return response.json();
-        } catch (error) { return response.status(500).json({ erro: "Erro BD : alterarProposta" }); }
+            const { tipo_veículo, lugar, data_interesse_vaga, descrição, status, cpf } = request.body;
+            const cpf_encriptado = md5(cpf);
+            const proprietário_estacionamento = await ProprietárioEstacionamento.findOne({
+                where: { usuário: cpf_encriptado }, relations: ["usuário"] });
+            await VagaEstacionamento.create({ tipo_veículo, lugar, data_interesse_vaga, descrição, status,
+                proprietário_estacionamento }).save();
+            return response.json();
+        } catch (error) { return response.status(500).json({ erro: "Erro BD : cadastrarVagaEstacionamento" }); }
     };
-    static async removerProposta(request, response) {
+    static async alterarVagaEstacionamento(request, response) {
         try {
-        const id_proposta = request.params.id;
-        const proposta = await Proposta.findOne(id_proposta);
-        await Proposta.remove(proposta);
-        return response.json();
-        } catch (error) { return response.status(500).json({ erro: "Erro BD : removerProposta" }); }
+            const { id, tipo_veículo, lugar, data_interesse_vaga, descrição, status } = request.body;
+            await VagaEstacionamento.update(id, { tipo_veículo, lugar, data_interesse_vaga, descrição, status });
+            return response.json();
+        } catch (error) { return response.status(500).json({ erro: "Erro BD : alterarVagaEstacionamento" }); }
     };
-    static async buscarPropostasProprietárioEstacionamento(request, response) {
+    static async removerVagaEstacionamento(request, response) {
         try {
-        const cpf_encriptado = md5(request.params.cpf);
-        const propostas = await Proposta.find({ where: { proprietárioestacionamento: { usuário: cpf_encriptado } },
-            relations: ["proprietário estacionamento", "proprietárioestacionamento.usuário"] });
-        return response.json(propostas);
+            const id_vaga_estacionamento = request.params.id;
+            const vaga_estacionamento = await VagaEstacionamento.findOne(id_vaga_estacionamento);
+            await VagaEstacionamento.remove(vaga_estacionamento);
+            return response.json();
+        } catch (error) { return response.status(500).json({ erro: "Erro BD : removerVagaEstacionamento" }); }
+    };
+    static async buscarVagasEstacionamentoProprietárioEstacionamento(request, response) {
+        try {
+            const cpf_encriptado = md5(request.params.cpf);
+            const vagas_estacionamento = await VagaEstacionamento.find({
+                where: { proprietário_estacionamento: { usuário: cpf_encriptado } },
+                relations: ["proprietário_estacionamento", "proprietário_estacionamento.usuário",
+                    "alugueis_vagas", "alugueis_vagas.proprietário_carro"] });
+            return response.json(vagas_estacionamento);
         } catch (error) { return response.status(500).json
-        ({ erro: "Erro BD : buscarPropostasProprietárioEstacionamento" }); }
+            ({ erro: "Erro BD : buscarVagasEstacionamentoProprietárioEstacionamento" }); }
     };
-    static filtrarÁreasAtuaçãoEliminandoRepetição(propostas: Proposta[]) {
-        let áreas_atuação: { label: string, value: string }[];
-        áreas_atuação = propostas.filter((proposta, índice, propostas_antes_filtrar) =>
-        propostas_antes_filtrar.findIndex
-            (proposta_anterior => proposta_anterior.área_atuação === proposta.área_atuação) === índice)
-            .map(proposta => ({ label: proposta.área_atuação, value: proposta.área_atuação }));
-        return áreas_atuação;
+    static filtrarLugaresEliminandoRepetição(vagas_estacionamento: VagaEstacionamento[]) {
+        let lugares: { label: string, value: string }[];
+        lugares = vagas_estacionamento.filter((vaga_estacionamento, índice, vagas_estacionamento_antes_filtrar) =>
+            vagas_estacionamento_antes_filtrar.findIndex
+                (vaga_estacionamento_anterior => vaga_estacionamento_anterior.lugar === vaga_estacionamento.lugar) === índice)
+            .map(vaga_estacionamento => ({ label: vaga_estacionamento.lugar, value: vaga_estacionamento.lugar }));
+        return lugares;
     };
-    static async buscarÁreasAtuaçãoPropostas(request, response) {
+    static async buscarLugaresVagasEstacionamento(request, response) {
         try {
-        const propostas = await Proposta.find();
-        const áreas_atuação = ServiçosProprietárioEstacionamento.filtrarÁreasAtuaçãoEliminandoRepetição(propostas);
-        return response.json(áreas_atuação.sort());
+            const vagas_estacionamento = await VagaEstacionamento.find();
+            const lugares = ServiçosProprietárioEstacionamento.filtrarLugaresEliminandoRepetição(vagas_estacionamento);
+            return response.json(lugares.sort());
         } catch (error) { return response.status(500).json
-        ({ erro: "Erro BD : buscarÁreasAtuaçãoPropostas" }); }
+            ({ erro: "Erro BD : buscarLugaresVagasEstacionamento" }); }
     };
     static async atualizarProprietárioEstacionamento(request, response) {
         try {

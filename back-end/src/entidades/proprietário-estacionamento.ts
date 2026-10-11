@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGen
     "typeorm";
 import Usuário from "./usuário";
 
-import VagasEstacionamento from "./vaga-estacionamento";
+import VagaEstacionamento from "./vaga-estacionamento";
 export enum Tipo_Estacionamento { COBERTO = "coberto", DESCOBERTO = "descoberto" };
 @Entity()
 export default class ProprietárioEstacionamento extends BaseEntity {
@@ -12,8 +12,8 @@ export default class ProprietárioEstacionamento extends BaseEntity {
     tipo_estacionamento: Tipo_Estacionamento;
     @Column()
     capacidade_total: number;
-    @OneToMany(() => VagasEstacionamento, (vagas_estacionamento) => vagas_estacionamento.proprietário_estacionamento)
-    vagas_estacionamento: VagasEstacionamento[];
+    @OneToMany(() => VagaEstacionamento, (vaga_estacionamento) => vaga_estacionamento.proprietário_estacionamento)
+    vagas_estacionamento: VagaEstacionamento[];
     @OneToOne(() => Usuário, (usuário) => usuário.proprietário_estacionamento, { onDelete: "CASCADE" })
     @JoinColumn()
     usuário: Usuário;

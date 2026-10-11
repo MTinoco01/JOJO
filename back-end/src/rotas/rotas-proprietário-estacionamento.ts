@@ -1,21 +1,23 @@
 import { Router } from "express";
 import verificarToken from "../middlewares/verificar-token";
 import verificarPerfilProprietárioEstacionamento from "../middlewares/verificar-perfil-proprietário-estacionamento";
+import verificarErroConteúdoToken from "../middlewares/verificar-erro-conteúdo-token";
 import ServiçosProprietárioEstacionamento from "../serviços/serviços-proprietário-estacionamento";
 const RotasProprietárioEstacionamento = Router();
 export default RotasProprietárioEstacionamento;
-RotasProprietárioEstacionamento.post("/", ServiçosProprietárioEstacionamento.cadastrarProprietário_Estacionamento);
+RotasProprietárioEstacionamento.post("/", ServiçosProprietárioEstacionamento.cadastrarProprietárioEstacionamento);
 RotasProprietárioEstacionamento.get("/:cpf", verificarToken, verificarPerfilProprietárioEstacionamento,
     ServiçosProprietárioEstacionamento.buscarProprietárioEstacionamento);
 RotasProprietárioEstacionamento.patch("/", verificarToken, verificarPerfilProprietárioEstacionamento,
     ServiçosProprietárioEstacionamento.atualizarProprietárioEstacionamento);
-RotasProprietárioEstacionamento.post("/propostas", verificarToken, verificarPerfilProprietárioEstacionamento, 
-  ServiçosProprietárioEstacionamento.cadastrarProposta);
-RotasProprietárioEstacionamento.patch("/propostas", verificarToken, verificarPerfilProprietárioEstacionamento, 
-  ServiçosProprietárioEstacionamento.alterarProposta);
-RotasProprietárioEstacionamento.delete("/propostas/:id", verificarToken, verificarPerfilProprietárioEstacionamento, 
-  ServiçosProprietárioEstacionamento.removerProposta);
-RotasProprietárioEstacionamento.get("/propostas/proprietárioestacionamento/:cpf", verificarToken, verificarPerfilProprietárioEstacionamento, 
-  verificarErroConteúdoToken, ServiçosProprietárioEstacionamento.buscarPropostasProprietárioEstacionamento);
-RotasProprietárioEstacionamento.get("/propostas/areas", verificarToken, verificarPerfilProprietárioEstacionamento, 
-  ServiçosProprietárioEstacionamento.buscarÁreasAtuaçãoPropostas);
+RotasProprietárioEstacionamento.post("/vagas_estacionamento", verificarToken, verificarPerfilProprietárioEstacionamento,
+  ServiçosProprietárioEstacionamento.cadastrarVagaEstacionamento);
+RotasProprietárioEstacionamento.patch("/vagas_estacionamento", verificarToken, verificarPerfilProprietárioEstacionamento,
+  ServiçosProprietárioEstacionamento.alterarVagaEstacionamento);
+RotasProprietárioEstacionamento.delete("/vagas_estacionamento/:id", verificarToken, verificarPerfilProprietárioEstacionamento,
+  ServiçosProprietárioEstacionamento.removerVagaEstacionamento);
+RotasProprietárioEstacionamento.get("/vagas_estacionamento/proprietario_estacionamento/:cpf", verificarToken,
+  verificarPerfilProprietárioEstacionamento, verificarErroConteúdoToken,
+  ServiçosProprietárioEstacionamento.buscarVagasEstacionamentoProprietárioEstacionamento);
+RotasProprietárioEstacionamento.get("/vagas_estacionamento/lugares", verificarToken, verificarPerfilProprietárioEstacionamento,
+  ServiçosProprietárioEstacionamento.buscarLugaresVagasEstacionamento);

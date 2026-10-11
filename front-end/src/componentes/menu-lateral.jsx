@@ -21,8 +21,8 @@ export default function MenuLateral({ children }) {
         { label: "Menu", items: [ 
             { label: "Cadastrar Usuário", command: () => navegar("/atualizar-usuario"),
                 disabled: usuárioLogado.status !== "ativo"},
-            { label: "Cadastrar Professor", command: () => navegar("/cadastrar-professor")},
-            { label: "Administrar Propostas", command: () => navegar("/administrar-propostas"),
+            { label: "Cadastrar ProprietárioEstacionamento", command: () => navegar("/cadastrar-proprietário-estacionamento")},
+            { label: "Administrar Vagas de Estacionamento", command: () => navegar("/administrar-vagas-estacionamento"),
                 disabled: usuárioLogado.status !== "ativo"},
             { label: "Sair do Sistema", command: () => sairSistema()},
         ]},
@@ -32,8 +32,8 @@ export default function MenuLateral({ children }) {
         { label: "Menu", items: [
             { label: "Cadastrar Usuário", command: () => navegar("/atualizar-usuario"),
                 disabled: usuárioLogado.status !== "ativo"},
-            { label: "Cadastrar Aluno", command: () => navegar("/cadastrar-aluno")},
-            { label: "Administrar Interesses", command: () =>  navegar("/administrar-interesses"),
+            { label: "Cadastrar Proprietário de Carro", command: () => navegar("/cadastrar-proprietário-carro")},
+            { label: "Administrar Aluguéis de Vagas", command: () =>  navegar("/administrar-alugueis-vagas"),
                 disabled: usuárioLogado.status !== "ativo"},
             { label: "Sair do Sistema", command: () => sairSistema()},
         ]},

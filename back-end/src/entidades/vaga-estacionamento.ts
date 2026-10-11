@@ -1,18 +1,18 @@
 import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import ProprietárioEstacionamento from "./proprietário-estacionamento";
 import AluguelVaga from "./aluguel-vaga";
-export enum Tipo_Veículo { CARRO = "carro", MOTO = "moto", CAMINHÂO = "caminhão" };
+export enum Tipo_Veículo { CARRO = "carro", MOTO = "moto", CAMINHÃO = "caminhão" };
 export enum Status {
     DISPONÍVEL = "disponível", ALUGADA = "alugada"
 };
 @Entity()
-export default class VagasEstacionamento extends BaseEntity {
+export default class VagaEstacionamento extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
     @Column({ type: "enum", enum: Tipo_Veículo })
     tipo_veículo: Tipo_Veículo;
     @Column()
-    endereço: string;
+    lugar: string;
     @Column({ type: "date" })
     data_interesse_vaga: Date;
     @Column()
@@ -21,6 +21,6 @@ export default class VagasEstacionamento extends BaseEntity {
     status: Status;
     @ManyToOne(() => ProprietárioEstacionamento, (proprietário_estacionamento) => proprietário_estacionamento.vagas_estacionamento, { onDelete: "CASCADE" })
     proprietário_estacionamento: ProprietárioEstacionamento;
-    @OneToMany(() => AluguelVaga, (aluguel_vaga) => aluguel_vaga.vagas_estacionamento)
-    aluguéis_vaga: AluguelVaga[];
+    @OneToMany(() => AluguelVaga, (aluguel_vaga) => aluguel_vaga.vaga_estacionamento)
+    alugueis_vagas: AluguelVaga[];
 }
