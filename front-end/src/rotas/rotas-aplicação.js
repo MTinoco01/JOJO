@@ -1,31 +1,21 @@
-import { ProvedorProfessor } from "../contextos/contexto-proprietário-estacionamento";
-import { ProvedorAluno } from "../contextos/contexto-proprietário-carro";
-import RotasProfessor from "./rotas-proprietário-estacionamento"
-import RotasAluno from "./rotas-proprietário-carro"
-import AdministrarPropostas from "../páginas/proprietário-estacionamento/administrar-vagasestacionamento";
-import CadastrarProposta from "../páginas/proprietário-estacionamento/cadastrar-vagaestacionamento";
-import AdministrarInteresses from "../páginas/proprietário-carro/administrar-alugueisvagas";
-import CadastrarInteresse from "../páginas/proprietário-carro/cadastrar-aluguelvaga";
-import PesquisarPropostas from "../páginas/proprietário-carro/pesquisar-vagaestacionamento";
-import ConsultarProposta from "../páginas/proprietário-carro/consultar-vagaestacionamento";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import RotasUsuárioLogado from "./rotas-usuário-logado";
 import LogarUsuário from "../páginas/usuário/logar-usuário";
 import CadastrarUsuário from "../páginas/usuário/cadastrar-usuário";
 import RecuperarAcesso from "../páginas/usuário/recuperar-acesso";
-<Route element={<ProvedorProprietárioEstacionamento><RotasProprietárioEstacionamento/></ProvedorProprietárioEstacionamento>}>
-            <Route element={<CadastrarProprietárioEstacionamento/>} path="cadastrar-proprietário-estacionamento"/>
-            <Route element={<AdministrarPropostas/>} path="administrar-vagaestacionamento"/>
-            <Route element={<CadastrarProposta/>} path="cadastrar-vagaestacionamento"/>
-          </Route>
+import CadastrarProprietarioCarro from "../páginas/proprietário-carro/cadastrar-proprietário-carro";
 import PáginaInicial from "../páginas/usuário/página-inicial";
-<Route element={<ProvedorProprietarioCarro><RotasProprietarioCarro/></ProvedorProprietarioCarro>}>
-            <Route element={<CadastrarProprietarioCarro/>} path="cadastrar-proprietário-carro"/>
-            <Route element={<AdministrarInteresses/>} path="administrar-alugueisvagas"/>
-            <Route element={<CadastrarInteresse/>} path="cadastrar-aluguelvaga"/>
-            <Route element={<PesquisarPropostas/>} path="pesquisar-vagasestacionamento"/>
-            <Route element={<ConsultarProposta/>} path="consultar-vagaestacionamento"/>
-          </Route>
+import CadastrarProprietárioEstacionamento from "../páginas/proprietário-estacionamento/cadastrar-proprietário-estacionamento";
+import { ProvedorProprietárioEstacionamento } from "../contextos/contexto-proprietário-estacionamento";
+import { ProvedorProprietárioCarro } from "../contextos/contexto-proprietário-carro";
+import RotasProprietárioEstacionamento from "./rotas-proprietário-estacionamento";
+import RotasProprietárioCarro from "./rotas-proprietário-carro";
+import AdministrarVagasEstacionamento from "../páginas/proprietário-estacionamento/administrar-vagasestacionamento";
+import CadastrarVagaEstacionamento from "../páginas/proprietário-estacionamento/cadastrar-vagaestacionamento";
+import AdministrarAlugueisVagas from "../páginas/proprietário-carro/administrar-alugueisvagas";
+import CadastrarAluguelVaga from "../páginas/proprietário-carro/cadastrar-aluguelvaga";
+import PesquisarVagasEstacionamento from "../páginas/proprietário-carro/pesquisar-vagasestacionamento";
+import ConsultarVagaEstacionamento from "../páginas/proprietário-carro/consultar-vagaestacionamento";
 export default function RotasAplicação() {
     return (
         <BrowserRouter>
@@ -36,8 +26,18 @@ export default function RotasAplicação() {
                 <Route element={<RotasUsuárioLogado />}>
                     <Route element={<PáginaInicial />} path="pagina-inicial" />
                     <Route element={<CadastrarUsuário />} path="atualizar-usuario" />
-                    <Route element={<CadastrarProprietárioEstacionamento />} path="cadastrar-proprietário-estacionamento" />
-                    <Route element={<CadastrarProprietarioCarro />} path="cadastrar-proprietário-carro" />
+                    <Route element={<ProvedorProprietárioEstacionamento><RotasProprietárioEstacionamento/></ProvedorProprietárioEstacionamento>}>
+                        <Route element={<CadastrarProprietárioEstacionamento/>} path="cadastrar-proprietário-estacionamento"/>
+                        <Route element={<AdministrarVagasEstacionamento/>} path="administrar-vagasestacionamento"/>
+                        <Route element={<CadastrarVagaEstacionamento/>} path="cadastrar-vagaestacionamento"/>
+                    </Route>
+                    <Route element={<ProvedorProprietárioCarro><RotasProprietárioCarro/></ProvedorProprietárioCarro>}>
+                        <Route element={<CadastrarProprietarioCarro/>} path="cadastrar-proprietário-carro"/>
+                        <Route element={<AdministrarAlugueisVagas/>} path="administrar-alugueisvagas"/>
+                        <Route element={<CadastrarAluguelVaga/>} path="cadastrar-aluguelvaga"/>
+                        <Route element={<PesquisarVagasEstacionamento/>} path="pesquisar-vagasestacionamento"/>
+                        <Route element={<ConsultarVagaEstacionamento/>} path="consultar-vagaestacionamento"/>
+                    </Route>
                 </Route>
             </Routes>
         </BrowserRouter>

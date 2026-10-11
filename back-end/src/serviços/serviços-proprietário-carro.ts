@@ -40,40 +40,42 @@ export default class ServiçosProprietárioCarro {
                 data_dono: proprietário_carro.data_dono, telefone: proprietário_carro.telefone });
         } catch (error) { return response.status(500).json({ erro: "Erro BD : buscarProprietárioCarro" }); }
     };
-     static async cadastrarInteresse(request, response) {
-    try {
-      const { id_proposta, necessidade_bolsa, justificativa, cpf } = request.body;
-      const cpf_encriptado = md5(cpf);
-      const proprietáriocarro = await Proprietáriorro.findOne({ where: { usuário: cpf_encriptado } });
-      const vaga-estacionamento = await VagaEstacionamento.findOne(id_proposta);
-      const alugueisvagas = await AluguelVaga.find({ where: { proprietáriocarro, vaga-estacionamento }});
-      if (alugueisvagas.length > 0) return response.status(404).json
-        ({ erro: "O proprietário do carro já cadastrou o alugeul da vaga para a vaga de estacionamento." });
-      await AluguelVaga.create({ necessidade_bolsa, justificativa, proprietáriocarro, vaga-estacionamento }).save();
-      return response.json();
-    } catch (error) { return response.status(500).json({ erro: "Erro BD : cadastrarInteresse" }); }
-  };
-  static async removerInteresse(request, response) {
-    try {
-      const id = request.params.id;
-      await AluguelVaga.delete(id);
-      return response.json();
-    } catch (error) { return response.status(500).json({ erro: "Erro BD : removerInteresse" }); }
-  };
-  static async buscarInteressesProprietáriorro(request, response) {
-    try {
-      const cpf_encriptado = md5(request.params.cpf);
-      const alugueisvagas = await AluguelVaga.find({ where: { proprietáriocarro: { usuário: cpf_encriptado } },
-        relations: ["proprietário do carro", "proprietáriocarro.usuário", "vaga-estacionamento", "vaga-estacionamento.professor", 
-          "vagaestacionamento.professor.usuário" ] });
-      return response.json(alugueisvagas);
-    } catch (error) { return response.status(500).json
-       ({ erro: "Erro BD : buscarInteressesProprietáriorro" }); }
-  };
-    static async buscarPropostas(request, response) {
-    try {
-            const vagasestacionamento = await VagaEstacionamento.find({ relations: ["professor", "professor.usuário"] });
-            return response.json(vagasestacionamento);
-        } catch (error) { return response.status(500).json({ erro: "Erro BD : buscarPropostas" }); }
+    static async cadastrarAluguelVaga(request, response) {
+        try {
+            const { id_vaga_estacionamento, justificativa, cpf } = request.body;
+            const cpf_encriptado = md5(cpf);
+            const proprietário_carro = await ProprietárioCarro.findOne({ where: { usuário: cpf_encriptado } });
+            const vaga_estacionamento = await VagaEstacionamento.findOne(id_vaga_estacionamento);
+            const alugueis_vagas = await AluguelVaga.find({ where: { proprietário_carro, vaga_estacionamento } });
+            if (alugueis_vagas.length > 0) return response.status(404).json
+                ({ erro: "O proprietário do carro já cadastrou aluguel para a vaga." });
+            await AluguelVaga.create({ justificativa, proprietário_carro, vaga_estacionamento }).save();
+            return response.json();
+        } catch (error) { return response.status(500).json({ erro: "Erro BD : cadastrarAluguelVaga" }); }
+    };
+    static async removerAluguelVaga(request, response) {
+        try {
+            const id = request.params.id;
+            await AluguelVaga.delete(id);
+            return response.json();
+        } catch (error) { return response.status(500).json({ erro: "Erro BD : removerAluguelVaga" }); }
+    };
+    static async buscarAlugueisVagasProprietárioCarro(request, response) {
+        try {
+            const cpf_encriptado = md5(request.params.cpf);
+            const alugueis_vagas = await AluguelVaga.find({ where: { proprietário_carro: { usuário: cpf_encriptado } },
+                relations: ["proprietário_carro", "proprietário_carro.usuário", "vaga_estacionamento",
+                    "vaga_estacionamento.proprietário_estacionamento",
+                    "vaga_estacionamento.proprietário_estacionamento.usuário"] });
+            return response.json(alugueis_vagas);
+        } catch (error) { return response.status(500).json
+            ({ erro: "Erro BD : buscarAlugueisVagasProprietárioCarro" }); }
+    };
+    static async buscarVagasEstacionamento(request, response) {
+        try {
+            const vagas_estacionamento = await VagaEstacionamento.find({
+                relations: ["proprietário_estacionamento", "proprietário_estacionamento.usuário"] });
+            return response.json(vagas_estacionamento);
+        } catch (error) { return response.status(500).json({ erro: "Erro BD : buscarVagasEstacionamento" }); }
     };
 }

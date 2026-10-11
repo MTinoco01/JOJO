@@ -88,7 +88,7 @@ if (response) mostrarToast(referênciaToast, "ProprietárioEstacionamento atuali
 };
     useEffect(() => {
         let desmontado = false;
-        async function buscarDadosProprietário_Estacionamento() {
+        async function buscarDadosProprietárioEstacionamento() {
             try {
                 const response = await serviçoBuscarProprietárioEstacionamento(usuárioLogado.cpf);
                 if (!desmontado && response.data) {
@@ -102,7 +102,7 @@ if (response) mostrarToast(referênciaToast, "ProprietárioEstacionamento atuali
                 if (erro) mostrarToast(referênciaToast, erro, "erro");
             }
         }
-        if (usuárioLogado?.cadastrado) buscarDadosProprietário_Estacionamento();
+        if (usuárioLogado?.cadastrado) buscarDadosProprietárioEstacionamento();
         return () => desmontado = true;
     }, [usuárioLogado?.cadastrado, usuárioLogado.cpf]);
     return (

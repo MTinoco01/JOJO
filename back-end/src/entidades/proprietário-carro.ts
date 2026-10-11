@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGen
     from "typeorm";
 import Usuário from "./usuário";
 import AluguelVaga from "./aluguel-vaga";
-export enum Marca { FIAT = "Fiat", PEGOUT = "Pegout", CHEVROLET = "Chevrolet" };
+export enum Marca { FIAT = "Fiat", PEUGEOT = "Peugeot", CHEVROLET = "Chevrolet" };
 @Entity()
 export default class ProprietárioCarro extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -16,7 +16,7 @@ export default class ProprietárioCarro extends BaseEntity {
     @Column()
     telefone: string;
     @OneToMany(() => AluguelVaga, aluguel_vaga => aluguel_vaga.proprietário_carro, { onDelete: "CASCADE" })
-    aluguéis_vaga: AluguelVaga[];
+    alugueis_vagas: AluguelVaga[];
     @OneToOne(() => Usuário, usuário => usuário.proprietário_carro, { onDelete: "CASCADE" })
     @JoinColumn()
     usuário: Usuário;
