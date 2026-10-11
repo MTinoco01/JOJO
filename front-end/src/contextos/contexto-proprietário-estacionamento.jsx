@@ -1,10 +1,10 @@
 import { createContext, useState } from "react";
 const ContextoProprietárioEstacionamento = createContext();
 export default ContextoProprietárioEstacionamento;
-export function ProvedorProprietárioEstacionamento({ children }) {
-    const [vagaConsultada, setVagaConsultada] = useState({});
-    return (
-        <ContextoProprietárioEstacionamento.Provider value={{ vagaConsultada, setVagaConsultada
-        }}>{children}</ContextoProprietárioEstacionamento.Provider>
-    );
+export function ProvedorProfessor({ children }) {
+const [propostaConsultada, setPropostaConsultada] = useState({});
+return (
+<ContextoProprietárioEstacionamento.Provider value={{ propostaConsultada, setPropostaConsultada
+ }}>{children}</ContextoProprietárioEstacionamento.Provider>
+ );
 }

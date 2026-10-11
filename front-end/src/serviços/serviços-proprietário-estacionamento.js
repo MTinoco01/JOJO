@@ -4,13 +4,13 @@ export function serviçoCadastrarProprietárioEstacionamento(proprietário_estac
 export function serviçoBuscarProprietárioEstacionamento(cpf) { return servidor.get(`/proprietarios_estacionamento/${cpf}`); }
 export function serviçoAtualizarProprietárioEstacionamento(proprietárioestacionamento)
 { return servidor.patch("/proprietarios_estacionamento", proprietárioestacionamento); };
-export function serviçoCadastrarVagaEstacionamento(vaga_estacionamento) {
-    return servidor.post("/proprietarios_estacionamento/vagas", vaga_estacionamento); };
-export function serviçoAlterarVagaEstacionamento(vaga_estacionamento) {
-    return servidor.patch("/proprietarios_estacionamento/vagas", vaga_estacionamento); };
-export function serviçoRemoverVagaEstacionamento(id) {
-    return servidor.delete(`/proprietarios_estacionamento/vagas/${id}`); };
-export function serviçoBuscarVagasProprietárioEstacionamento(cpf) {
-    return servidor.get(`/proprietarios_estacionamento/vagas/proprietario-estacionamento/${cpf}`); };
-export function serviçoBuscarEndereçosVagasEstacionamento() {
-    return servidor.get("/proprietarios_estacionamento/vagas/enderecos"); };
+export function serviçoCadastrarProposta(proposta) { 
+return servidor.post("/proprietarios_estacionamento/propostas", proposta); };
+export function serviçoAlterarProposta(proposta) {
+  return servidor.patch("/proprietarios_estacionamento/propostas", proposta); };
+export function serviçoRemoverProposta(id) {
+  return servidor.delete(`/proprietarios_estacionamento/propostas/${id}`); };
+export function serviçoBuscarPropostasProprietárioEstacionamento(cpf) {
+  return servidor.get(`/proprietarios_estacionamento/propostas/proprietario_estacionamento/${cpf}`); };
+export function serviçoBuscarÁreasAtuaçãoPropostas() {
+  return servidor.get("/proprietarios_estacionamento/propostas/areas"); };

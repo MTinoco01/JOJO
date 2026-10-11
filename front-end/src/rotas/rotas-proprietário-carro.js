@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import ContextoUsuário from "../contextos/contexto-usuário";
+import UsuárioContext from "../contextos/contexto-usuário";
 export default function RotasProprietárioCarro() {
-    const { usuárioLogado } = useContext(ContextoUsuário);
-    if (usuárioLogado.perfil === "proprietário_carro") return <Outlet />
-    else return <Navigate to="/" />;
+  const { usuárioLogado  } = useContext(UsuárioContext);
+  if (usuárioLogado.perfil === "Proprietário Carro") return <Outlet/>
+  else return <Navigate to="/"/>;
 }

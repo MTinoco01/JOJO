@@ -18,30 +18,24 @@ export default function MenuLateral({ children }) {
     const navegar = useNavigate();
     const opçõesProprietárioEstacionamento = [
         { label: "Página Inicial", command: () => navegar("/pagina-inicial") },
-        {
-            label: "Menu", items: [
-                {
-                    label: "Cadastrar Usuário", command: () => navegar("/atualizar-usuario"),
-                    disabled: usuárioLogado.status !== "ativo"
-                },
-                { label: "Cadastrar ProprietárioEstacionamento", command: () => navegar("/cadastrar-proprietário-estacionamento") },
-                {
-                    label: "Administrar Vagas", command: () => navegar("/administrar-vagas-estacionamento"),
-                    disabled: usuárioLogado.status !== "ativo"
-                },
-                { label: "Sair do Sistema", command: () => sairSistema() }
-            ]
-        },
+        { label: "Menu", items: [ 
+            { label: "Cadastrar Usuário", command: () => navegar("/atualizar-usuario"),
+                disabled: usuárioLogado.status !== "ativo"},
+            { label: "Cadastrar Professor", command: () => navegar("/cadastrar-professor")},
+            { label: "Administrar Propostas", command: () => navegar("/administrar-propostas"),
+                disabled: usuárioLogado.status !== "ativo"},
+            { label: "Sair do Sistema", command: () => sairSistema()},
+        ]},
     ];
     const opçõesProprietárioCarro = [
         { label: "Página Inicial", command: () => navegar("/pagina-inicial") },
         { label: "Menu", items: [
-        { label: "Cadastrar Usuário", command: () => navegar("/atualizar-usuario"),
-        disabled: usuárioLogado.status !== "ativo"},
-        { label: "Cadastrar Proprietário de Carro", command: () => navegar("/cadastrar-proprietário-carro")},
-        { label: "Administrar Aluguéis", command: () => navegar("/administrar-alugueis-vaga"),
-        disabled: usuárioLogado.status !== "ativo"},
-        { label: "Sair do Sistema", command: () => sairSistema()},
+            { label: "Cadastrar Usuário", command: () => navegar("/atualizar-usuario"),
+                disabled: usuárioLogado.status !== "ativo"},
+            { label: "Cadastrar Aluno", command: () => navegar("/cadastrar-aluno")},
+            { label: "Administrar Interesses", command: () =>  navegar("/administrar-interesses"),
+                disabled: usuárioLogado.status !== "ativo"},
+            { label: "Sair do Sistema", command: () => sairSistema()},
         ]},
     ];
     function sairSistema() {
@@ -94,4 +88,5 @@ export default function MenuLateral({ children }) {
             <div className={estilizarColuna()}>{children}</div>
         </div>
     );
+    
 }
