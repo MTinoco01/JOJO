@@ -1,7 +1,7 @@
 export default function formatarPerfil(perfil) {
     switch (perfil) {
-        case "proprietário_estacionamento": return "Proprietário_Estacionamento";
-        case "proprietário_carro": return "Proprietário_Carro";
+        case "proprietário_estacionamento": return "ProprietárioEstacionamento";
+        case "proprietário_carro": return "ProprietárioCarro";
         default: return;
     }
 };

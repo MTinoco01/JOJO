@@ -24,7 +24,7 @@ export default function MenuLateral({ children }) {
                     label: "Cadastrar Usuário", command: () => navegar("/atualizar-usuario"),
                     disabled: usuárioLogado.status !== "ativo"
                 },
-                { label: "Cadastrar Proprietário_Estacionamento", command: () => navegar("/cadastrar-proprietário-estacionamento") },
+                { label: "Cadastrar ProprietárioEstacionamento", command: () => navegar("/cadastrar-proprietário-estacionamento") },
                 { label: "Sair do Sistema", command: () => sairSistema() }
             ]
         },

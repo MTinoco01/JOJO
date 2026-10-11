@@ -38,8 +38,8 @@ export default function CadastrarUsuário() {
         cor_tema: usuárioLogado?.cor_tema || TEMA_PADRÃO
     });
     const [erros, setErros] = useState({});
-    const opçõesPerfis = [{ label: "Proprietário_Estacionamento", value: "proprietário_estacionamento" },
-    { label: "Proprietário_Carro", value: "proprietário_carro" }];
+    const opçõesPerfis = [{ label: "ProprietárioEstacionamento", value: "proprietário_estacionamento" },
+    { label: "ProprietárioCarro", value: "proprietário_carro" }];
     function alterarEstado(event) {
         const chave = event.target.name;
         const valor = event.target.value;
@@ -105,8 +105,7 @@ export default function CadastrarUsuário() {
                 response = await serviçoVerificarCpfExistente(dados.cpf);
                 if (response) confirmarOperação("salvar");
             } catch (error) {
-                if (error.response.data.erro)
-                    mostrarToast(referênciaToast, error.response.data.erro, "erro");
+                mostrarToast(referênciaToast, error.response?.data?.erro || "Servidor indisponível. Verifique se o back-end está rodando.", "erro");
             }
         }
     }

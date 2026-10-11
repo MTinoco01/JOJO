@@ -9,7 +9,7 @@ export default function PáginaInicial() {
     const { usuárioLogado } = useContext(ContextoUsuário);
     function HeaderCentralizado() {
         return (<div className={estilizarCardHeaderCentralizado()}>
-            Vagas_Estacionamento de Trabalhos de Computação</div>)
+            Aluguel de Estacionamentos</div>)
     };
     return (
         <div className={estilizarPáginaÚnica()}>

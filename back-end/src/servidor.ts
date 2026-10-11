@@ -1,10 +1,10 @@
-import RotasProprietárioCarro from "./rotas/rotas-proprietario-carro";
+import RotasProprietárioCarro from "./rotas/rotas-proprietário-carro";
 import cors from "cors";
 import express from "express";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import RotasUsuário from "./rotas/rotas-usuario";
-import RotasProprietárioEstacionamento from "./rotas/rotas-proprietario-estacionamento";
+import RotasUsuário from "./rotas/rotas-usuário";
+import RotasProprietárioEstacionamento from "./rotas/rotas-proprietário-estacionamento";
 const app = express();
 const PORT = process.env.PORT
 const CORS_ORIGIN = process.env.CORS_ORIGIN;

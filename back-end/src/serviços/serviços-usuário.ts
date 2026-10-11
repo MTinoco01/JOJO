@@ -3,8 +3,8 @@ import dotenv from 'dotenv';
 import md5 from "md5";
 import { sign } from "jsonwebtoken";
 import Usuário, { Perfil } from "../entidades/usuário";
-import Proprietário_Estacionamento from "../entidades/proprietário-estacionamento";
-import Proprietário_Carro from "../entidades/proprietário-carro";
+import ProprietárioEstacionamento from "../entidades/proprietário-estacionamento";
+import ProprietárioCarro from "../entidades/proprietário-carro";
 import { getManager } from "typeorm";
 dotenv.config();
 const SALT = 10;
@@ -24,14 +24,14 @@ export default class ServiçosUsuário {
     static async verificarCadastroCompleto(usuário: Usuário) {
         switch (usuário.perfil) {
             case Perfil.PROPRIETÁRIO_ESTACIONAMENTO:
-                const proprietário_estacionamento = await Proprietário_Estacionamento.findOne({
+                const proprietário_estacionamento = await ProprietárioEstacionamento.findOne({
                     where: { usuário: usuário.cpf },
                     relations: ["usuário"]
                 });
                 if (!proprietário_estacionamento) return false;
                 return true;
             case Perfil.PROPRIETÁRIO_CARRO:
-                const proprietário_carro = await Proprietário_Carro.findOne({
+                const proprietário_carro = await ProprietárioCarro.findOne({
                     where: { usuário: usuário.cpf },
                     relations: ["usuário"]
                 });
@@ -84,68 +84,67 @@ export default class ServiçosUsuário {
         };
     };
     static async alterarUsuário(request, response) {
-    try {
-        const { cpf, senha, questão, resposta, cor_tema, email } = request.body;
-        const cpf_encriptado = md5(cpf);
-        let senha_encriptada: string, resposta_encriptada: string;
-        let token: string;
-        const usuário = await Usuário.findOne(cpf_encriptado);
-        if (email) {
-            usuário.email = email;
-            token = sign({ perfil: usuário.perfil, email }, SENHA_JWT,
-            { subject: usuário.nome, expiresIn: "1d" });
+        try {
+            const { cpf, senha, questão, resposta, cor_tema, email } = request.body;
+            const cpf_encriptado = md5(cpf);
+            let senha_encriptada: string, resposta_encriptada: string;
+            let token: string;
+            const usuário = await Usuário.findOne(cpf_encriptado);
+            if (email) {
+                usuário.email = email;
+                token = sign({ perfil: usuário.perfil, email }, SENHA_JWT,
+                { subject: usuário.nome, expiresIn: "1d" });
+            }
+            if (cor_tema) usuário.cor_tema = cor_tema;
+            if (senha) {
+                senha_encriptada = await bcrypt.hash(senha, SALT);
+                usuário.senha = senha_encriptada;
+            }
+            if (resposta) {
+                resposta_encriptada = await bcrypt.hash(resposta, SALT);
+                usuário.questão = questão;
+                usuário.resposta = resposta_encriptada;
+            }
+            await Usuário.save(usuário);
+            const usuário_info = { nome: usuário.nome, perfil: usuário.perfil, email: usuário.email,
+            questão: usuário.questão, status: usuário.status, cor_tema: usuário.cor_tema, token: null };
+            if (token) usuário_info.token = token;
+            return response.json(usuário_info);
+        } catch (error) { return response.status(500).json({ erro: "Erro BD: alterarUsuário" }); }
+    };
+    static async removerUsuário(request, response) {
+        try {
+            const cpf_encriptado = md5(request.params.cpf);
+            const entityManager = getManager();
+            await entityManager.transaction(async (transactionManager) => {
+            const usuário = await transactionManager.findOne(Usuário, cpf_encriptado);
+            await transactionManager.remove(usuário);
+            return response.json();
+            });
+        } catch (error) {
+        return response.status(500).json({ erro: "Erro BD: removerUsuário" });
         }
-        if (cor_tema) usuário.cor_tema = cor_tema;
-        if (senha) {
-            senha_encriptada = await bcrypt.hash(senha, SALT);
-            usuário.senha = senha_encriptada;
+    };
+    static async buscarQuestãoSegurança(request, response) {
+        try {
+            const cpf_encriptado = md5(request.params.cpf);
+            const usuário = await Usuário.findOne(cpf_encriptado);
+            if (usuário) return response.json({ questão: usuário.questão });
+            else return response.status(404).json({ mensagem: "CPF não cadastrado" });
+        } catch (error) { return response.status(500).json({ erro: "Erro BD : buscarQuestãoSegurança" }); }
+    };
+    static async verificarRespostaCorreta(request, response) {
+        try {
+            const { cpf, resposta } = request.body;
+            const cpf_encriptado = md5(cpf);
+            const usuário = await Usuário.findOne(cpf_encriptado);
+            const resposta_correta = await bcrypt.compare(resposta, usuário.resposta);
+            if (!resposta_correta) return response.status(401).json({ mensagem: "Resposta incorreta." });
+            const token = sign({ perfil: usuário.perfil, email: usuário.email },
+            process.env.SENHA_JWT, { subject: usuário.nome, expiresIn: "1h" });
+            return response.json({ token });
+        } catch (error) {
+        return response.status(500).json({ erro: "Erro BD: verificarRespostaCorreta" });
         }
-        if (resposta) {
-            resposta_encriptada = await bcrypt.hash(resposta, SALT);
-            usuário.questão = questão;
-            usuário.resposta = resposta_encriptada;
-        }
-        await Usuário.save(usuário);
-        const usuário_info = { nome: usuário.nome, perfil: usuário.perfil, email: usuário.email,
-        questão: usuário.questão, status: usuário.status, cor_tema: usuário.cor_tema, token: null };
-        if (token) usuário_info.token = token;
-        return response.json(usuário_info);
-    } catch (error) { return response.status(500).json({ erro: "Erro BD: alterarUsuário" }); }
-};
-static async removerUsuário(request, response) {
-try {
-const cpf_encriptado = md5(request.params.cpf);
-const entityManager = getManager();
-await entityManager.transaction(async (transactionManager) => {
-const usuário = await transactionManager.findOne(Usuário, cpf_encriptado);
-await transactionManager.remove(usuário);
-return response.json();
-});
-} catch (error) {
-return response.status(500).json({ erro: "Erro BD: removerUsuário" });
-}
-};
-static async buscarQuestãoSegurança(request, response) {
-try {
-const cpf_encriptado = md5(request.params.cpf);
-const usuário = await Usuário.findOne(cpf_encriptado);
-if (usuário) return response.json({ questão: usuário.questão });
-else return response.status(404).json({ mensagem: "CPF não cadastrado" });
-} catch (error) { return response.status(500).json
-({ erro: "Erro BD : buscarQuestãoSegurança" }); }
-};
-static async verificarRespostaCorreta(request, response) {
-try {
-const { cpf, resposta } = request.body;
-const cpf_encriptado = md5(cpf);
-const usuário = await Usuário.findOne(cpf_encriptado);
-const resposta_correta = await bcrypt.compare(resposta, usuário.resposta);
-if (!resposta_correta) return response.status(401).json({ mensagem: "Resposta incorreta." });
-const token = sign({ perfil: usuário.perfil, email: usuário.email },
-process.env.SENHA_JWT, { subject: usuário.nome, expiresIn: "1h" });
-return response.json({ token });
-} catch (error) {
-return response.status(500).json({ erro: "Erro BD: verificarRespostaCorreta" });
-}
-};
+    };
 };

@@ -1,6 +1,6 @@
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToOne, PrimaryColumn } from "typeorm";
-import Proprietário_Estacionamento from "./proprietário-estacionamento";
-import Proprietário_Carro from "./proprietário-carro";
+import ProprietárioEstacionamento from "./proprietário-estacionamento";
+import ProprietárioCarro from "./proprietário-carro";
 export enum Perfil { PROPRIETÁRIO_CARRO = "proprietário_carro", PROPRIETÁRIO_ESTACIONAMENTO = "proprietário_estacionamento" };
 export enum Status { PENDENTE = "pendente", ATIVO = "ativo", INATIVO = "inativo"};
 export enum Cores {
@@ -28,10 +28,10 @@ export default class Usuário extends BaseEntity {
     resposta: string;
     @Column({ type: "enum", enum: Cores })
     cor_tema: string;
-    @OneToOne(() => Proprietário_Estacionamento, (proprietário_estacionamento) => proprietário_estacionamento.usuário)
-    proprietário_estacionamento: Proprietário_Estacionamento;
-    @OneToOne(() => Proprietário_Carro, (proprietário_carro) => proprietário_carro.usuário)
-    proprietário_carro: Proprietário_Carro;
+    @OneToOne(() => ProprietárioEstacionamento, (proprietário_estacionamento) => proprietário_estacionamento.usuário)
+    proprietário_estacionamento: ProprietárioEstacionamento;
+    @OneToOne(() => ProprietárioCarro, (proprietário_carro) => proprietário_carro.usuário)
+    proprietário_carro: ProprietárioCarro;
     @CreateDateColumn()
     data_criação: Date;
 }

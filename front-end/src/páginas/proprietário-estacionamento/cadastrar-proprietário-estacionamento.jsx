@@ -17,7 +17,7 @@ import {
     estilizarDropdown, estilizarFlex, estilizarInlineFlex, estilizarInputNumber, estilizarLabel
 }
     from "../../utilitários/estilos";
-export default function CadastrarProprietário_Estacionamento() {
+export default function CadastrarProprietárioEstacionamento() {
     const referênciaToast = useRef(null);
     const { usuárioLogado, setUsuárioLogado } = useContext(ContextoUsuário);
     const [dados, setDados] = useState({ tipo_estacionamento: "", capacidade_total: "" });
@@ -38,8 +38,8 @@ export default function CadastrarProprietário_Estacionamento() {
         return checarListaVazia(errosCamposObrigatórios);
     };
     function títuloFormulário() {
-        if (usuárioLogado?.cadastrado) return "Alterar Proprietário_Estacionamento";
-        else return "Cadastrar Proprietário_Estacionamento";
+        if (usuárioLogado?.cadastrado) return "Alterar ProprietárioEstacionamento";
+        else return "Cadastrar ProprietárioEstacionamento";
     };
     async function cadastrarProprietárioEstacionamento() {
         if (validarCampos()) {
@@ -54,7 +54,7 @@ export default function CadastrarProprietário_Estacionamento() {
                         ...usuário, status: response.data.status,
                         token: response.data.token
                     }));
-                mostrarToast(referênciaToast, "Proprietário_Estacionamento cadastrado com sucesso!", "sucesso");
+                mostrarToast(referênciaToast, "ProprietárioEstacionamento cadastrado com sucesso!", "sucesso");
             } catch (error) {
                 setCpfExistente(true);
                 mostrarToast(referênciaToast, error.response.data.erro, "erro");
@@ -119,7 +119,7 @@ if (response) mostrarToast(referênciaToast, "ProprietárioEstacionamento atuali
                 </div>
                 <div className={estilizarDivCampo()}>
                     <label className={estilizarLabel(usuárioLogado.cor_tema)}>
-                        Anos de Experiência Empresarial*:</label>
+                        Quantidade de Vagas Disponivel*:</label>
                     <InputNumber name="capacidade_total" size={5}
                         value={dados.capacidade_total}
                         onValueChange={alterarEstado} mode="decimal"

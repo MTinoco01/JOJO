@@ -1,20 +1,22 @@
 import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn }
     from "typeorm";
 import Usuário from "./usuário";
-import Aluguel_Vaga from "./aluguel-vaga";
+import AluguelVaga from "./aluguel-vaga";
 export enum Marca { FIAT = "Fiat", PEGOUT = "Pegout", CHEVROLET = "Chevrolet" };
 @Entity()
-export default class Proprietário_Carro extends BaseEntity {
+export default class ProprietárioCarro extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
     @Column({ type: "enum", enum: Marca })
     marca: Marca;
+    @Column()
+    data_carro: number;
     @Column({ type: "date" })
-    data_carro: Date;
+    data_dono: Date;
     @Column()
     telefone: string;
-    @OneToMany(() => Aluguel_Vaga, aluguel_vaga => aluguel_vaga.proprietário_carro, { onDelete: "CASCADE" })
-    aluguéis_vaga: Aluguel_Vaga[];
+    @OneToMany(() => AluguelVaga, aluguel_vaga => aluguel_vaga.proprietário_carro, { onDelete: "CASCADE" })
+    aluguéis_vaga: AluguelVaga[];
     @OneToOne(() => Usuário, usuário => usuário.proprietário_carro, { onDelete: "CASCADE" })
     @JoinColumn()
     usuário: Usuário;
